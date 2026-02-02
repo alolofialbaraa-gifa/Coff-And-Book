@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>دفتر مخصص</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'Tajawal';
+      src: url('../font/Tajawal-Regular.ttf') format('truetype');
+    }
+
+    html,
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: rgb(245, 247, 250);
+    }
+
+    body.bg-white.text-gray-800.min-h-screen {
+      background-color: rgb(245, 247, 250);
+    }
+
+    .muted-beige {
+      background-color: #F5EDE6;
+    }
+
+    .btn-brown {
+      background-color: #5C4033;
+      color: white;
+    }
+
+    .btn-brown:hover {
+      background-color: #4a3329;
+    }
+
+    .error-msg {
+      color: red;
+      font-size: 0.9rem;
+      display: none;
+      margin-top: 4px;
+    }
+
+    .input-field[aria-invalid="true"] {
+      border-color: red;
+    }
+  </style>
+  <style>
+    #wrapper {
+      position: relative;
+      width: 90%;
+      /* العرض يتأقلم مع الشاشة */
+      max-width: 800px;
+      /* حد أقصى */
+      aspect-ratio: 4 / 3;
+      /* نسبة أبعاد الدفتر */
+      overflow: hidden;
+      box-shadow: 3px 3px 8px #88888847;
+      border-radius: 12px;
+    }
+
+    #bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    #canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    #img {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800 min-h-screen">
+
+  <!-- Navbar -->
+  <header class="sticky top-0 bg-white shadow-sm z-50">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-center">
+      <div class="text-lg font-bold" id="productTitle">دفتر</div>
+    </div>
+  </header>
+  <!-- Main container -->
+  <main class="max-w-xl mx-auto px-4 py-4 space-y-6">
+
+    <!-- Preview Image -->
+    <div style="display: flex; justify-content: center;">
+      <div id="wrapper">
+        <!-- الخلفية -->
+        <img id="bg" alt="Background" style="object-fit: fill;">
+
+        <!-- النتيجة -->
+        <canvas id="canvas"></canvas>
+
+        <!-- صورة الدفتر الأصلية -->
+        <img id="img" src="notebook.png" alt="Notebook">
+      </div>
+    </div>
+    <!-- الاسم على الغلاف -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">الاسم الذي تريد وضعه على الغلاف:</label>
+      <input id="nameInput" type="text" placeholder="أدخل الاسم" class="w-full border rounded-lg p-2" maxlength="20"
+        required />
+      <span id="nameError" class="error-msg">الاسم مطلوب!</span>
+    </div>
+
+    <!-- نوع الدفتر -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">نوع الدفتر:</label>
+      <select id="typeSelect" class="w-full border rounded-lg p-2">
+        <option value="JR">جر</option>
+        <option value="TD">عادي "تدبيس"</option>
+      </select>
+    </div>
+
+    <!-- عدد الأوراق -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">عدد الأوراق:</label>
+      <select id="pagesSelect" class="w-full border rounded-lg p-2">
+        <option value="600">40 ورقة</option>
+        <option value="800">60 ورقة</option>
+        <option value="1000">80 ورقة</option>
+        <option value="1200">100 ورقة</option>
+        <option value="1500">150 ورقة</option>
+      </select>
+    </div>
+
+    <!-- السعر -->
+    <div class="p-3 muted-beige rounded-lg text-center font-bold text-lg">
+      <span>السعر :</span>
+      <span id="price">السعر: 2500 ريال</span>
+      <span>ريال</span>
+    </div>
+
+    <!-- زر الإرسال -->
+    <button id="submitBtn" class="w-full py-3 rounded-xl btn-brown font-bold">التالي</button>
+    </section>
+
+  </main>
+
+  <footer class="max-w-xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
+    قهوة وكتاب ☕️ - اصنع دفترك بنفسك :)
+  </footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const notebook = params.get("notebook");
+  document.getElementById("bg").src = notebook;
+
+  const img = document.getElementById("img");
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  function processImage() {
+    // اضبط أبعاد الكانفاس بما يناسب حجم الصورة الأصلي
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    ctx.drawImage(img, 0, 0);
+
+    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let data = imageData.data;
+
+    const target = { r: 0, g: 255, b: 0 };
+
+    for (let i = 0; i < data.length; i += 4) {
+      let r = data[i], g = data[i + 1], b = data[i + 2];
+
+      // حذف الأخضر
+      if (Math.abs(r - target.r) < 80 &&
+          Math.abs(g - target.g) < 80 &&
+          Math.abs(b - target.b) < 80) {
+        data[i + 3] = 0;
+      } else {
+        // تغميق الألوان
+        data[i] = r * 0.7;
+        data[i + 1] = g * 0.7;
+        data[i + 2] = b * 0.7;
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+  }
+
+  // هنا الإضافة الوحيدة: نفّذ المعالجة بعد تحميل الصورة
+  img.onload = processImage;
+</script>
+
+
+  <script type="module" src="../js/request.js"></script>
+</body>
+
+</html>

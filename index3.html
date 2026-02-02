@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>قهوة وكتاب - دفاتر مخصصة</title>
+  <!-- Tailwind Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./css/splashScreen.css">
+  <style>
+    @font-face {
+      font-family: 'Tajawal';
+      /* هنا تختار اسماً للخط ستستخدمه لاحقاً */
+      src: url('./font/Tajawal-Regular.ttf') format('truetype');
+    }
+
+    html,
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      /* استخدام الخط في الجسم */
+    }
+
+    /* small niceties */
+    .coffee-brown {
+      background-color: #5B3A2E;
+    }
+
+    .muted-beige {
+      background-color: #F5EDE6;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800 min-h-screen">
+  <!-- شاشة التحميل -->
+  <div class="splash-screen">
+    <div class="logo">قهوة وكتــاب</div>
+  </div>
+  <!-- Navbar -->
+  <header class="sticky top-0 bg-white shadow-sm z-50">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <!-- Right: site title + coffee icon -->
+      <div class="flex items-center gap-2">
+        <!-- Coffee bean icon -->
+        <div class="text-lg font-bold">قهوة وكتاب</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main container -->
+  <main class="max-w-xl mx-auto px-4 py-4">
+
+    <!-- Hero / intro -->
+    <section class="mb-4">
+      <div class="rounded-xl p-4 muted-beige shadow-sm">
+        <h1 class="text-xl font-bold">اطلب دفترك</h1>
+        <p class="text-sm mt-2">اختر القالب، اكتب الاسم، حدد عدد الأوراق، و أرسل طلبك مباشرةً وبسهولة.</p>
+      </div>
+    </section>
+
+    <!-- Sections -->
+    <section id="catalog"></section>
+
+    <!-- Product full list modal/page -->
+    <div id="sectionPage" class="fixed inset-0 bg-black/40 hidden items-end md:items-center">
+      <div class="bg-white w-full max-w-xl rounded-t-2xl p-4 max-h-[85vh] overflow-auto">
+        <button id="closeSectionPage" class="text-sm text-gray-500 mb-2">← رجوع</button>
+        <h2 id="sectionTitle" class="text-lg font-bold mb-3"></h2>
+        <div id="sectionGrid" class="grid grid-cols-2 gap-3"></div>
+      </div>
+    </div>
+
+    <!-- Customizer panel -->
+    <div id="customizer" class="fixed inset-0 bg-black/50 hidden items-end">
+      <div class="bg-white w-full max-w-xl rounded-t-2xl p-4 max-h-[90vh] overflow-auto">
+        <button id="closeCustomizer" class="text-sm text-gray-500 mb-2">← إغلاق</button>
+        <div id="customContent"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="max-w-xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
+    قهوة وكتاب ☕️ - اصنع دفترك بنفسك :)
+  </footer>
+
+  <script type="module" src="js/index.js"></script>
+</body>
+
+</html>

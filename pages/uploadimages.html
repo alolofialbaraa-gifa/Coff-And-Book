@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>رفع الصور — قهوة وكتاب</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'Tajawal';
+      /* هنا تختار اسماً للخط ستستخدمه لاحقاً */
+      src: url('../font/Tajawal-Regular.ttf') format('truetype');
+    }
+
+    html,
+    body {
+      font-family: 'Tajawal', sans-serif
+    }
+
+    .btn-brown {
+      background: #5C4033;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn-brown:hover {
+      background: #4a3329
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ffffff;
+      grid-column: 1 / -1;
+    }
+
+    .loading::after {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(199, 121, 49, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white min-h-screen text-gray-800">
+  <header class="sticky top-0 bg-white shadow z-40">
+    <div class="max-w-xl mx-auto px-4 py-3 text-center font-bold">رفع صور — قهوة وكتاب</div>
+  </header>
+
+  <main class="max-w-xl mx-auto p-4">
+    <p class="text-sm text-gray-600 mb-3">حمّل صور الغلاف لكل مربع. اضغط على أي مربع لرفع صورة، ويمكنك إزالتها أو
+      استبدالها قبل الضغط على "التالي".</p>
+
+    <form id="uploadForm" class="grid grid-cols-2 gap-3">
+      <!-- 8 upload boxes (static to avoid template bugs) -->
+      <label id="box1"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file1">
+        <input id="file1" name="file1" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+
+      <label id="box2"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file2">
+        <input id="file2" name="file2" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+
+      <label id="box3"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file3">
+        <input id="file3" name="file3" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+
+      <label id="box4"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file4">
+        <input id="file4" name="file4" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+
+      <label id="box5"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file5">
+        <input id="file5" name="file5" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+
+      <label id="box6"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file6">
+        <input id="file6" name="file6" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+
+      <label id="box7"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file7">
+        <input id="file7" name="file7" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+
+      <label id="box8"
+        class="relative border-dashed border-2 border-gray-200 rounded-lg p-2 flex flex-col items-center justify-center h-36 bg-gray-50 cursor-pointer"
+        for="file8">
+        <input id="file8" name="file8" type="file" accept="image/*" class="hidden upload-input">
+        <div class="placeholder flex flex-col items-center gap-1">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16V4h10v12M7 20h10"></path>
+          </svg>
+          <div class="text-xs text-gray-600">رفع صورة</div>
+        </div>
+        <button type="button"
+          class="remove-btn absolute top-2 left-2 bg-white/90 rounded-full p-1 text-xs hidden">×</button>
+        <img class="preview absolute inset-0 w-full h-full object-cover rounded-lg hidden" alt="preview">
+      </label>
+    </form>
+
+    <div class="mt-4">
+      <button id="nextBtn" type="button" class="w-full py-3 rounded-xl btn-brown font-bold">ارسال الطلب</button>
+    </div>
+
+    <p id="hint" class="mt-3 text-xs text-gray-500">يمكنك تعديل أو إزالة أي صورة قبل الضغط على "ارسال الطلب".</p>
+  </main>
+
+  <script type="module" src="../js/uploadImages.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>قهوة وكتاب - دفاتر مخصصة</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Tajawal';
+            src: url('../font/Tajawal-Regular.ttf') format('truetype');
+        }
+
+        html,
+        body {
+            font-family: "Tajawal", sans-serif;
+        }
+
+        /* small niceties */
+        .coffee-brown {
+            background-color: #5b3a2e;
+        }
+
+        .muted-beige {
+            background-color: #f5ede6;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/selectCover.css">
+</head>
+
+<body class="bg-white text-gray-800 min-h-screen">
+    <!-- Navbar -->
+    <header class="sticky top-0 bg-white shadow-sm z-50">
+        <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-end">
+            <!-- Coffee bean icon -->
+            <div class="text-lg font-bold">قهوة وكتاب</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="header">
+            <h1>اختيارالدفتر</h1>
+            <p>اختر دفترك من بين مجموعة دفاترنا</p>
+        </div>
+
+        <div id="coverGrid" class="grid">
+            <div class="loading">جاري تحميل الدفاتر</div>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <button class="next-btn" id="next-btn">التالي</button>
+    </div>
+
+    <script type="module" src="../js/notebooks.js"></script>
+</body>
+
+</html>
